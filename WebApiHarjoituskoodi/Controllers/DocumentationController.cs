@@ -15,24 +15,43 @@ namespace WebApiHarjoituskoodi.Controllers
         //-------------------get documentation by keycode
         [HttpGet]
         [Route("{key}")]
-        public List<Documentation> GetDocumentation(string key)
+        //----------------------------------------------------OPTION ONE
+        //    public List<Documentation> GetDocumentation(string key)
+        //    {
+        //        northwindContext db = new northwindContext();
+
+        //        List<Documentation> privateDocList = (from d in db.Documentation
+        //                                              where d.Keycode == key
+        //                                              select d).ToList();
+
+        ////jos key ei löytyy laitetaan listalle virheilmoituksen
+        //        if (privateDocList.Count==0)
+        //        {
+
+        //            privateDocList.Add(new Documentation()
+        //            {
+        //                DocumentationId = 0,
+        //                Description = "Document not found"
+        //            });
+        //    }
+        //    return privateDocList;
+        //}
+        public ActionResult GetDocs(string key)
         {
             northwindContext db = new northwindContext();
 
             List<Documentation> privateDocList = (from d in db.Documentation
                                                   where d.Keycode == key
                                                   select d).ToList();
-            if (privateDocList.Count==0)
+            if (privateDocList.Count>0)
             {
+            return Ok(privateDocList);
 
-                privateDocList.Add(new Documentation()
-                {
-                    DocumentationId = 0,
-                    Description = "Document not found"
-                });
             }
-            return privateDocList;
+            else
+            {
+                return BadRequest("Antamallasi koodilla ei löydy dokumentaatioita " + DateTime.Now.ToString());
+            }
         }
-
     }
 }
