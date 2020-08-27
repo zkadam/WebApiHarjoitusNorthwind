@@ -47,5 +47,36 @@ namespace WebApiHarjoituskoodi.Controllers
             return someCustomers.ToList();
 
         }
+
+        //-------------------------POST
+
+        [HttpPost]
+        [Route("")]
+        public ActionResult PostCreateNew([FromBody] Customers asiakas)
+        {
+
+                northwindContext db = new northwindContext();
+            try
+            {
+                db.Customers.Add(asiakas);
+                db.SaveChanges();
+                return Ok(asiakas.CustomerId);
+            }
+            catch (Exception)
+            {
+
+                return BadRequest("Jokin meni pieleen asiakasta lisäättäessä");
+            }
+            finally
+            {
+                db.Dispose();
+
+            }
+
+
+
+        }
+
+
     }
 }
