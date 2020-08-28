@@ -71,7 +71,6 @@ namespace WebApiHarjoituskoodi.Controllers
         public ActionResult PostNewProduct([FromBody] Products tuote)
         {
 
-           
             try
             {
                 db.Products.Add(tuote);
@@ -96,7 +95,7 @@ namespace WebApiHarjoituskoodi.Controllers
         [Route("{key}")]
         public ActionResult PutProdEdit(int key, [FromBody] Products tuote)
         {
-            northwindContext db = new northwindContext();
+            
             try
             {
                 Products prod = db.Products.Find(key);
@@ -130,6 +129,26 @@ namespace WebApiHarjoituskoodi.Controllers
             }
         }
 
+ //---------------------------------DELETE product poisto
+        [HttpDelete]
+        [Route("{key}")]
+        public ActionResult DeleteProduct(int key)
+        {
+            Products tuote = db.Products.Find(key);
+            if (tuote != null)
+            {
+                db.Products.Remove(tuote);
+                db.SaveChanges();
+                db.Dispose();
+                return Ok("Tuote " + key + " poistettiin.");
+            }
+            else
+            {
+                db.Dispose();
+                return NotFound("Tuote " + key + " ei löydy");
+            }
+
+        }
 
     }
 }
