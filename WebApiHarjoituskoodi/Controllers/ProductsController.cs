@@ -64,7 +64,34 @@ namespace WebApiHarjoituskoodi.Controllers
             }
         }
 
- //------------------------------PUT update existing customer
+//-------------------------POST new Product
+
+        [HttpPost]
+        [Route("")]
+        public ActionResult PostNewProduct([FromBody] Products tuote)
+        {
+
+           
+            try
+            {
+                db.Products.Add(tuote);
+                db.SaveChanges();
+                return Ok("Uusi tuote lisätty id:llä: " + tuote.ProductId);
+            }
+            catch (Exception)
+            {
+
+                return BadRequest("Tuoten lisäystä epäonnistui.");
+            }
+            finally
+            {
+                db.Dispose();
+
+            }
+        }
+
+
+        //------------------------------PUT update existing product
         [HttpPut]
         [Route("{key}")]
         public ActionResult PutProdEdit(int key, [FromBody] Products tuote)
