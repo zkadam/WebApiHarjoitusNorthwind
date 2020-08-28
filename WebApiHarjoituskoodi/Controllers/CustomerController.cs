@@ -122,13 +122,15 @@ namespace WebApiHarjoituskoodi.Controllers
             {
                 db.Customers.Remove(asiakas);
                 db.SaveChanges();
+                db.Dispose();
                 return Ok("Asiakas " + key + " poistettiin.");
             }
             else
             {
+                db.Dispose();
                 return NotFound("Asiakasta " + key + " ei löydy");
             }
-
+            
         }
     }
 }
