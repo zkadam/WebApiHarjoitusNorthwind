@@ -48,7 +48,7 @@ namespace WebApiHarjoituskoodi.Controllers
 
         }
 
-        //-------------------------POST
+        //-------------------------POST new customer
 
         [HttpPost]
         [Route("")]
@@ -72,9 +72,44 @@ namespace WebApiHarjoituskoodi.Controllers
                 db.Dispose();
 
             }
+        }
+//------------------------------PUT update existing customer
+        [HttpPut]
+        [Route("{key}")]
+        public  ActionResult PutEdit(string key, [FromBody] Customers asiakas)
+        {
+            northwindContext db = new northwindContext();
+            try
+            {
+                Customers customer = db.Customers.Find(key);
+                if (customer !=null)
+                {
+                    customer.CompanyName = asiakas.CompanyName;
+                    customer.ContactName = asiakas.ContactName;
+                    customer.ContactTitle = asiakas.ContactTitle;
+                    customer.Country = customer.Country;
+                    customer.City = asiakas.City;
+                    customer.City = asiakas.City;
+                    customer.PostalCode = asiakas.PostalCode;
+                    customer.Phone = asiakas.Phone;
 
-
-
+                    db.SaveChanges();
+                    return Ok(customer.CustomerId + " asiakkaan tiedot ovat päivitetty");
+                }
+                else
+                {
+                    return NotFound("Päivitettävää asiakasta ei löytynyt");
+                }
+            }
+            catch (Exception)
+            {
+                return BadRequest("Asiakkaan tietojen päivitys ei onnistunut");
+                throw;
+            }
+            finally
+            {
+                db.Dispose();
+            }
         }
 
 
