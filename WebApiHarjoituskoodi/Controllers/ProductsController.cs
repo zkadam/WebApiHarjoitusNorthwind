@@ -54,7 +54,7 @@ namespace WebApiHarjoituskoodi.Controllers
                                 select p;
             if (prodList.Count()!=0)
             {
-                db.Dispose();
+                //db.Dispose();
                 return Ok(prodList.ToList());
             }
             else
