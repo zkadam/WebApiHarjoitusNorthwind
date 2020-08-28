@@ -14,6 +14,7 @@ namespace WebApiHarjoituskoodi.Controllers
     {
         northwindContext db = new northwindContext();
 
+        //-------------------get all northwind products
         [HttpGet]
         [Route("")]
         public List<Products> GetAllProducts()
@@ -22,6 +23,23 @@ namespace WebApiHarjoituskoodi.Controllers
             List<Products> products = db.Products.ToList();
             db.Dispose();
             return products;
+        }
+
+        //-------------------get northwind product by id
+        [HttpGet]
+        [Route("{id}")]
+        public ActionResult GetOneProduct(int id)
+        {
+
+            Products tuote = db.Products.Find(id);
+            if (tuote != null)
+            {
+                return Ok(tuote);
+            }
+            else
+            {
+                return NotFound("Product id:llä: " + id + " ei löyty");
+            }
         }
     }
 }
