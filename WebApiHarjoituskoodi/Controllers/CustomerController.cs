@@ -111,7 +111,24 @@ namespace WebApiHarjoituskoodi.Controllers
                 db.Dispose();
             }
         }
+//---------------------------------DELETE customers poisto
+        [HttpDelete]
+        [Route("{key}")]
+        public  ActionResult DeleteCustomer(string key)
+        {
+            northwindContext db = new northwindContext();
+            Customers asiakas = db.Customers.Find(key);
+            if (asiakas != null)
+            {
+                db.Customers.Remove(asiakas);
+                db.SaveChanges();
+                return Ok("Asiakas " + key + " poistettiin.");
+            }
+            else
+            {
+                return NotFound("Asiakasta " + key + " ei löydy");
+            }
 
-
+        }
     }
 }
