@@ -41,5 +41,27 @@ namespace WebApiHarjoituskoodi.Controllers
                 return NotFound("Product id:llä: " + id + " ei löyty");
             }
         }
+        
+        //-------------------get northwind product by categoryid
+        [HttpGet]
+        [Route("Category/{id}")]
+        public ActionResult GetProductsByCat(int id)
+        {
+            //List<Products> productList = new List<Products>();
+            //productList.Add
+            //Products tuote = db.Products.Find(id);
+            var prodList = from p in db.Products
+                                where p.CategoryId == id
+                                select p;
+            if (prodList.Count()!=0)
+            {
+                return Ok(prodList.ToList());
+            }
+            else
+            {
+                return NotFound("Tuotteet category id:llä: " + id + " ei löyty");
+            }
+        }
+
     }
 }
