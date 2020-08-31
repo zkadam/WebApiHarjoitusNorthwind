@@ -34,7 +34,7 @@ namespace WebApiHarjoituskoodi.Controllers
                                where p.OrderId == orderid
                                where p.ProductId==tuoteid
                                select p;
-            if (tilausDetail != null)
+            if (tilausDetail.Count()>0)
             {
                 //db.Dispose();
                 return Ok(tilausDetail);
@@ -69,8 +69,8 @@ namespace WebApiHarjoituskoodi.Controllers
         //-------------------------POST new OrderDetail
 
         [HttpPost]
-        [Route("")]
-        public ActionResult PostNewOrderDetail([FromBody] OrderDetails tilausDetail)
+        [Route("{orderid}/{tuoteid}")]
+        public ActionResult PostNewOrderDetail(int orderid, int tuoteid,[FromBody] OrderDetails tilausDetail)
         {
 
             try
@@ -130,21 +130,21 @@ namespace WebApiHarjoituskoodi.Controllers
 
         //---------------------------------DELETE orderDetail poisto
         [HttpDelete]
-        [Route("{OrderId}/{id}")]
-        public ActionResult DeleteOrderDetail(int key)
+        [Route("{OrderId}/{tuoteId}")]
+        public ActionResult DeleteOrderDetail(int Orderid, int tuoteId)
         {
-            OrderDetails tilausDetail = db.OrderDetails.Find(key);
+            OrderDetails tilausDetail = db.OrderDetails.Find(Orderid,tuoteId);
             if (tilausDetail != null)
             {
                 db.OrderDetails.Remove(tilausDetail);
                 db.SaveChanges();
                 db.Dispose();
-                return Ok("Tuote " + key + " poistettiin.");
+                return Ok("Tilausotsikko : " + Orderid + " / " + tuoteId + " poistettiin.");
             }
             else
             {
                 db.Dispose();
-                return NotFound("Tuote " + key + " ei löydy");
+                return NotFound("Tuote " + Orderid + " / " + tuoteId + " ei löydy");
             }
 
         }
