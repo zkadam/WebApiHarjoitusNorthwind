@@ -31,8 +31,8 @@ namespace WebApiHarjoituskoodi
                 options.AddPolicy("MyCorsPolicy",
                 builder => builder.AllowAnyOrigin()
                 .AllowAnyMethod()
-                .AllowAnyHeader()
-                .AllowCredentials());
+                .AllowAnyHeader());
+                //.AllowCredentials());
             });
             services.AddControllers();
         }

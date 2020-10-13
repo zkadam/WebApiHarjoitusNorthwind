@@ -12,6 +12,21 @@ namespace WebApiHarjoituskoodi.Controllers
     [ApiController]
     public class CustomerController : ControllerBase
     {
+
+
+        [HttpGet]
+        [Route("R")]
+
+        //https://localhost:5001/nw/customer/R?offset=10&limit=2
+        public ActionResult GetSomeCustumers(int offset, int limit)
+        {
+            northwindContext db = new northwindContext();
+            List<Customers> asiakkaat = db.Customers.Skip(offset).Take(limit).ToList();
+            return Ok(asiakkaat);
+
+        }
+
+
         //-------------------get all northwind customers
         [HttpGet]
         [Route("")]
@@ -21,7 +36,7 @@ namespace WebApiHarjoituskoodi.Controllers
             List<Customers> asiakkaat = db.Customers.ToList();
             return asiakkaat;
         }
-        
+
         //-------------------get northwind customer by id
         [HttpGet]
         [Route("{id}")]
