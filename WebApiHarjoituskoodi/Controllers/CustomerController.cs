@@ -16,13 +16,22 @@ namespace WebApiHarjoituskoodi.Controllers
 
         [HttpGet]
         [Route("R")]
-
+        //-------------------------------------------------------FILTERING RESULTS AND PAGINATING
         //https://localhost:5001/nw/customer/R?offset=10&limit=2
-        public ActionResult GetSomeCustumers(int offset, int limit)
+        public ActionResult GetSomeCustumers(int offset, int limit, string country)
         {
             northwindContext db = new northwindContext();
-            List<Customers> asiakkaat = db.Customers.Skip(offset).Take(limit).ToList();
-            return Ok(asiakkaat);
+            if (country != null)
+            {
+                List<Customers> asiakkaat = db.Customers.Where(d=>d.Country==country).Skip(offset).Take(limit).ToList();
+                return Ok(asiakkaat);
+            }
+            else
+            {
+                List<Customers> asiakkaat = db.Customers.Skip(offset).Take(limit).ToList();
+                return Ok(asiakkaat);
+            }
+
 
         }
 
