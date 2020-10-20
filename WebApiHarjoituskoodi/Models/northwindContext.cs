@@ -523,6 +523,14 @@ namespace WebApiHarjoituskoodi.Models
                 entity.HasKey(e => e.LoginId)
                     .HasName("PK_Login");
 
+                entity.Property(e => e.AccesslevelId).HasColumnName("AccesslevelID");
+
+                entity.Property(e => e.Email).HasMaxLength(150);
+
+                entity.Property(e => e.Firstname).HasMaxLength(50);
+
+                entity.Property(e => e.Lastname).HasMaxLength(50);
+
                 entity.Property(e => e.PassWord)
                     .IsRequired()
                     .HasMaxLength(50);
