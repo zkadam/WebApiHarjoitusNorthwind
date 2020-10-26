@@ -26,5 +26,28 @@ namespace WebApiHarjoituskoodi.Controllers
             db.Dispose();
             return logins;
         }
+
+        //-------------------get northwind product by id
+        [HttpGet]
+        [Route("{surname}")]
+        public ActionResult GetLoginsBySurname(string surname)
+        {
+
+            List<Logins> logins = db.Logins.Where(l => l.Lastname.Contains(surname)).ToList();
+            if (logins != null)
+            {
+                foreach (var login in logins)
+                {
+                    login.PassWord = "*****";
+                }
+                db.Dispose();
+                return Ok(logins);
+            }
+            else
+            {
+                db.Dispose();
+                return NotFound("Haettu sukunimi: " + surname + " ei löyty");
+            }
+        }
     }
 }
