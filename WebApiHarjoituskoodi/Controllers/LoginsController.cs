@@ -49,5 +49,38 @@ namespace WebApiHarjoituskoodi.Controllers
                 return NotFound("Haettu sukunimi: " + surname + " ei löyty");
             }
         }
+
+
+
+        //-------------------------POST new Product
+
+        [HttpPost]
+        [Route("")]
+        public ActionResult PostNewUser([FromBody] Logins login)
+        {
+            if (!db.Logins.Any(l => l.UserName == login.UserName))
+            {
+                try
+                {
+                    db.Logins.Add(login);
+                    db.SaveChanges();
+                    return Ok("Uusi käyttäjä lisätty käyttäjänimellä: " + login.UserName);
+                }
+                catch (Exception)
+                {
+
+                    return BadRequest("Käytttäjän lisäystä epäonnistui.");
+                }
+                finally
+                {
+                    db.Dispose();
+
+                }
+            }
+            else
+            {
+                return BadRequest("Käytttäjän lisäystä epäonnistui. Käyttäjänimi on jo olemassa");
+            }
+        }
     }
 }
