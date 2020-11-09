@@ -18,18 +18,75 @@ namespace WebApiHarjoituskoodi.Controllers
         [Route("R")]
         //-------------------------------------------------------FILTERING RESULTS AND PAGINATING
         //https://localhost:5001/nw/customer/R?offset=10&limit=2
-        public ActionResult GetSomeCustumers(int offset, int limit, string country)
+        public ActionResult GetSomeCustumers(int? offset, int? limit, string country)
         {
+            int offset2 = offset ?? 0;
+            int limit2 = limit ?? 0;
             northwindContext db = new northwindContext();
+
+            //jos annettu country parameter
             if (country != null)
             {
-                List<Customers> asiakkaat = db.Customers.Where(d=>d.Country==country).Skip(offset).Take(limit).ToList();
-                return Ok(asiakkaat);
+                //jos ei ole sivurajoituksia ja valittu sivunumeroita
+                if (offset2==0&&limit2==0)
+                {
+                    List<Customers> asiakkaat = db.Customers.Where(d => d.Country.Contains(country)).ToList();
+                    return Ok(asiakkaat);
+                }
+                //jos ei ole sivurajoituksia 
+
+                else if (offset2 == 0)
+                {
+                    List<Customers> asiakkaat = db.Customers.Where(d => d.Country.Contains(country)).Take(limit2).ToList();
+                    return Ok(asiakkaat);
+                }
+                //jos ei ole  valittu sivunumero
+
+                else if (limit2 == 0)
+                {
+                    List<Customers> asiakkaat = db.Customers.Where(d => d.Country.Contains(country)).Take(limit2).ToList();
+                    return Ok(asiakkaat);
+                }
+
+                //jos on sivurajoituksia ja valittu sivunumeroita
+                else
+                {
+                    List<Customers> asiakkaat = db.Customers.Where(d => d.Country.Contains(country)).Skip(offset2).Take(limit2).ToList();
+                    return Ok(asiakkaat);
+
+                }
             }
+    //-------------EI OLE ANNETTU COUNTRY PARAMETER
             else
             {
-                List<Customers> asiakkaat = db.Customers.Skip(offset).Take(limit).ToList();
-                return Ok(asiakkaat);
+                //jos ei ole sivurajoituksia ja valittu sivunumeroita
+                if (offset2 == 0 && limit2 == 0)
+                {
+                    List<Customers> asiakkaat = db.Customers.ToList();
+                    return Ok(asiakkaat);
+                }
+                //jos ei ole sivurajoituksia 
+
+                else if (offset2 == 0)
+                {
+                    List<Customers> asiakkaat = db.Customers.Take(limit2).ToList();
+                    return Ok(asiakkaat);
+                }
+                //jos ei ole  valittu sivunumero
+
+                else if (limit2 == 0)
+                {
+                    List<Customers> asiakkaat = db.Customers.Take(limit2).ToList();
+                    return Ok(asiakkaat);
+                }
+
+                //jos on sivurajoituksia ja valittu sivunumeroita
+                else
+                {
+                    List<Customers> asiakkaat = db.Customers.Skip(offset2).Take(limit2).ToList();
+                    return Ok(asiakkaat);
+
+                }
             }
 
 
