@@ -2,12 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using WebApiHarjoituskoodi.Models;
+using WebApiHarjoituskoodi.ViewModels;
 
 namespace WebApiHarjoituskoodi.Services
 {
   public  interface IAuthenticateService
     {
-        Logins Authenticate(string UserName, string PassWord);
+        LoginsWithToken Authenticate(string UserName, string PassWord);
     }
 }
