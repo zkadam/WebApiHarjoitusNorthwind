@@ -13,7 +13,7 @@ namespace WebApiHarjoituskoodi.Controllers
     public class LoginsController : ControllerBase
     {
         northwindContext db = new northwindContext();
-        //-------------------get all northwind employees
+        //-------------------get all northwind logins
         [HttpGet]
         [Route("")]
         public List<Logins> GetAllLogins()
@@ -27,7 +27,29 @@ namespace WebApiHarjoituskoodi.Controllers
             return logins;
         }
 
-        //-------------------get northwind product by id
+        //-------------------get northwind login by id
+        [HttpGet]
+        [Route("id/{id}")]
+        public ActionResult GetLoginsById(int id)
+        {
+
+            var login = db.Logins.Find(id);
+            if (login != null)
+            {
+               
+                    login.PassWord = "*****";
+               
+                db.Dispose();
+                return Ok(login);
+            }
+            else
+            {
+                db.Dispose();
+                return NotFound("Haettu id: " + id + " ei löyty");
+            }
+        }
+        
+        //-------------------get northwind login by surname
         [HttpGet]
         [Route("{surname}")]
         public ActionResult GetLoginsBySurname(string surname)
@@ -50,9 +72,46 @@ namespace WebApiHarjoituskoodi.Controllers
             }
         }
 
+        //------------------------------PUT update existing Login
+        [HttpPut]
+        [Route("{key}")]
+        public ActionResult PutKayttajaEdit(int key, [FromBody] Logins login)
+        {
 
+            try
+            {
+                Logins Kayttaja = db.Logins.Find(key);
+                if (Kayttaja != null)
+                {
+                    Kayttaja.LoginId = login.LoginId;
+                    Kayttaja.Firstname = login.Firstname;
+                    Kayttaja.Lastname = login.Lastname;
+                    Kayttaja.Email = login.Email;
+                    Kayttaja.UserName = login.UserName;
+                    //Kayttaja.PassWord = login.PassWord;
+                    Kayttaja.AccesslevelId = login.AccesslevelId;
+                   
+                    db.SaveChanges();
 
-        //-------------------------POST new Product
+                    return Ok(Kayttaja.UserName + " käyttäjän tiedot ovat päivitetty");
+                }
+                else
+                {
+                    return NotFound("Päivitettävää käyttäjä ei löytynyt");
+                }
+            }
+            catch (Exception)
+            {
+                return BadRequest("Tuotteen tietojen päivitys ei onnistunut");
+                throw;
+            }
+            finally
+            {
+                db.Dispose();
+            }
+        }
+
+        //-------------------------POST new login
 
         [HttpPost]
         [Route("")]
