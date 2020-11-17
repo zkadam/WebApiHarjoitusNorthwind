@@ -141,5 +141,29 @@ namespace WebApiHarjoituskoodi.Controllers
                 return BadRequest("Käytttäjän lisäystä epäonnistui. Käyttäjänimi on jo olemassa");
             }
         }
+
+
+        //---------------------------------DELETE product poisto
+        [HttpDelete]
+        [Route("{key}")]
+        public ActionResult DeleteLogin(int key)
+        {
+            Logins kayttaja = db.Logins.Find(key);
+            if (kayttaja != null)
+            {
+                db.Logins.Remove(kayttaja);
+                db.SaveChanges();
+                db.Dispose();
+                return Ok("<Käyttäjä " + key + " poistettiin.");
+            }
+            else
+            {
+                db.Dispose();
+                return NotFound("Käyttäjä " + key + " ei löydy");
+            }
+
+        }
     }
+
+
 }
