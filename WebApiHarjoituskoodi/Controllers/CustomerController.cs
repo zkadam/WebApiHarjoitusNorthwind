@@ -172,9 +172,10 @@ namespace WebApiHarjoituskoodi.Controllers
                     customer.ContactTitle = asiakas.ContactTitle;
                     customer.Country = customer.Country;
                     customer.City = asiakas.City;
-                    customer.City = asiakas.City;
+                    customer.Address = asiakas.Address;
                     customer.PostalCode = asiakas.PostalCode;
                     customer.Phone = asiakas.Phone;
+                    customer.Fax = asiakas.Fax;
 
                     db.SaveChanges();
                     return Ok(customer.CustomerId + " asiakkaan tiedot ovat päivitetty");
