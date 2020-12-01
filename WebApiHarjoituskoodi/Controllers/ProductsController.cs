@@ -10,7 +10,7 @@ using WebApiHarjoituskoodi.Models;
 
 namespace WebApiHarjoituskoodi.Controllers
 {
-    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+    //[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     [Route("nw/[controller]")]
     [ApiController]
     public class ProductsController : ControllerBase
@@ -46,8 +46,87 @@ namespace WebApiHarjoituskoodi.Controllers
                 return NotFound("Product id:llä: " + id + " ei löyty");
             }
         }
-        
-//-------------------get northwind product by categoryid
+
+
+
+        [HttpGet]
+        [Route("R")]
+        //-------------------------------------------------------FILTERING RESULTS AND PAGINATING
+        //https://localhost:5001/nw/Products/R?offset=10&limit=2
+        public ActionResult GetSomeProducts(int? offset, int? limit, string prodname)
+        {
+            int offset2 = offset ?? 0;
+            int limit2 = limit ?? 0;
+            northwindContext db = new northwindContext();
+
+            //jos annettu prodname parameter
+            if (prodname != null)
+            {
+                //jos ei ole sivurajoituksia ja valittu sivunumeroita
+                if (offset2 == 0 && limit2 == 0)
+                {
+                    List<Products> tuotteet = db.Products.Where(d => d.ProductName.Contains(prodname)).ToList();
+                    return Ok(tuotteet);
+                }
+                //jos ei ole sivurajoituksia 
+
+                else if (offset2 == 0)
+                {
+                    List<Products> tuotteet = db.Products.Where(d => d.ProductName.Contains(prodname)).Take(limit2).ToList();
+                    return Ok(tuotteet);
+                }
+                //jos ei ole  valittu sivunumero
+
+                else if (limit2 == 0)
+                {
+                    List<Products> tuotteet = db.Products.Where(d => d.ProductName.Contains(prodname)).Take(limit2).ToList();
+                    return Ok(tuotteet);
+                }
+
+                //jos on sivurajoituksia ja valittu sivunumeroita
+                else
+                {
+                    List<Products> tuotteet = db.Products.Where(d => d.ProductName.Contains(prodname)).Skip(offset2).Take(limit2).ToList();
+                    return Ok(tuotteet);
+
+                }
+            }
+            //-------------EI OLE ANNETTU prodname PARAMETER
+            else
+            {
+                //jos ei ole sivurajoituksia ja valittu sivunumeroita
+                if (offset2 == 0 && limit2 == 0)
+                {
+                    List<Products> tuotteet = db.Products.ToList();
+                    return Ok(tuotteet);
+                }
+                //jos ei ole sivurajoituksia 
+
+                else if (offset2 == 0)
+                {
+                    List<Products> tuotteet = db.Products.Take(limit2).ToList();
+                    return Ok(tuotteet);
+                }
+                //jos ei ole  valittu sivunumero
+
+                else if (limit2 == 0)
+                {
+                    List<Products> tuotteet = db.Products.Take(limit2).ToList();
+                    return Ok(tuotteet);
+                }
+
+                //jos on sivurajoituksia ja valittu sivunumeroita
+                else
+                {
+                    List<Products> tuotteet = db.Products.Skip(offset2).Take(limit2).ToList();
+                    return Ok(tuotteet);
+
+                }
+            }
+
+
+        }
+        //-------------------get northwind product by categoryid
         [HttpGet]
         [Route("Category/{id}")]
         public ActionResult GetProductsByCat(int id)
