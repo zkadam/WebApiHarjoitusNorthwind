@@ -170,7 +170,7 @@ namespace WebApiHarjoituskoodi.Controllers
                     customer.CompanyName = asiakas.CompanyName;
                     customer.ContactName = asiakas.ContactName;
                     customer.ContactTitle = asiakas.ContactTitle;
-                    customer.Country = customer.Country;
+                    customer.Country = asiakas.Country;
                     customer.City = asiakas.City;
                     customer.Address = asiakas.Address;
                     customer.PostalCode = asiakas.PostalCode;
