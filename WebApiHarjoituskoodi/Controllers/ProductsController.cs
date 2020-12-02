@@ -10,7 +10,7 @@ using WebApiHarjoituskoodi.Models;
 
 namespace WebApiHarjoituskoodi.Controllers
 {
-    //[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     [Route("nw/[controller]")]
     [ApiController]
     public class ProductsController : ControllerBase

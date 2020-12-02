@@ -57,9 +57,13 @@ namespace WebApiHarjoituskoodi.Models
             if (!optionsBuilder.IsConfigured)
             {
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. See http://go.microsoft.com/fwlink/?LinkId=723263 for guidance on storing connection strings.
-                optionsBuilder.UseSqlServer("Server=DESKTOP-JG29GF8\\SQLEXPRESS;Database=northwind;Trusted_Connection=True;");
+                //--------------------------------------------LOCAL DATABASE
+                //optionsBuilder.UseSqlServer("Server=DESKTOP-JG29GF8\\SQLEXPRESS;Database=northwind;Trusted_Connection=True;");
+                //--------------------------------------------SQL DATABASE
+                optionsBuilder.UseSqlServer("Server=xamarintuntidb.database.windows.net;Database=northwind;Trusted_Connection=False;user id=adam;password=Careeria2020;");
             }
         }
+
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
