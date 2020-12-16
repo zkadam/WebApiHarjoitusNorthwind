@@ -10,7 +10,7 @@ using WebApiHarjoituskoodi.Models;
 
 namespace WebApiHarjoituskoodi.Controllers
 {
-    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+    //[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     [Route("nw/[controller]")]
     [ApiController]
     public class ProductsController : ControllerBase
@@ -191,6 +191,7 @@ namespace WebApiHarjoituskoodi.Controllers
                     prod.UnitsInStock = tuote.UnitsInStock;
                     prod.UnitsOnOrder = tuote.UnitsOnOrder;
                     prod.Discontinued = tuote.Discontinued;
+                    prod.ReorderLevel = tuote.ReorderLevel;
                     prod.ImageLink = tuote.ImageLink;
 
                     db.SaveChanges();
