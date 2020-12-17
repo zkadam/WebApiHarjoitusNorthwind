@@ -141,8 +141,9 @@ namespace WebApiHarjoituskoodi.Controllers
             }
             else
             {
+                List<string> errorList = new List<string> { "Tuotteet category id:llä: " + id + " ei löyty" };
                 db.Dispose();
-                return NotFound("Tuotteet category id:llä: " + id + " ei löyty");
+                return NotFound(errorList);
             }
         }
 
